@@ -1,7 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../models/profil_model.dart';
+import '../../providers/profil_provider.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
@@ -36,6 +40,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   @override
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
+    final profilProvider = Provider.of<ProfilProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -100,6 +105,19 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   await prefs.setString("instansi", instansi);
                   await prefs.setString("email", email);
                   await prefs.setString("telepon", telepon);
+
+                  // simpan data di state manajemen
+                  profilProvider.setData(
+                    ProfilModel(
+                      namapengguna: namaPengguna,
+                      instansi: instansi,
+                      email: email,
+                      telepon: telepon,
+                    ),
+                  );
+
+                  // pindah ke halaman home
+                  Navigator.pop(context);
                 },
                 child: const Text('Simpan'),
               ),

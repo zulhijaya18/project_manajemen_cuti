@@ -4,7 +4,10 @@ import 'package:project_manajemen_cuti/screens/cuti_diajukan/cuti_diajukan_scree
 import 'package:project_manajemen_cuti/screens/kuota_cuti/kuota_cuti_screen.dart';
 import 'package:project_manajemen_cuti/screens/list_cuti/list_cuti_screen.dart';
 import 'package:project_manajemen_cuti/screens/profil/profil_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../providers/profil_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,6 +39,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final maxWidth = MediaQuery.of(context).size.width;
     final maxHeight = MediaQuery.of(context).size.height;
+
+    final profilProvider = Provider.of<ProfilProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Selamat Datang $namaPengguna',
+              'Selamat Datang ${profilProvider.data?.namapengguna ?? ''}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -131,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Text(
-              namaInstansi,
+              profilProvider.data?.instansi ?? '',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
